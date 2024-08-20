@@ -135,7 +135,7 @@
             if(id){
                 Products[id] = {...Products[id],title,price,thumbnail}
             }else{
-                Products.push({title,thumbnail,category})
+                Products.push({title,thumbnail,price})
             }
             genUI(Products)
             document.getElementById('product-id').value = ''
