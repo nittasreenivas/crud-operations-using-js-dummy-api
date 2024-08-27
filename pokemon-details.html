@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Details</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        #pokemon-details {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid grey;
+            border-radius: 10px;
+        }
+        #back-button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #back-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pokémon Details</h1>
+    <div id="pokemon-details"></div>
+    <button id="back-button">Back</button>
+    <script>
+        const getPokemonNameFromUrl = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('name');
+        }
+
+        const API = async (name) => {
+            let res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+            let data = await res.json();
+            displayDetails(data);
+        }
+
+        const displayDetails = (data) => {
+            let detailsDiv = document.getElementById('pokemon-details');
+            detailsDiv.innerHTML = `
+                <h2>${data.name}</h2>
+                <img src="${data.sprites.front_default}" alt="${data.name}">
+                <p>Height: ${data.height}</p>
+                <p>Weight: ${data.weight}</p>
+                <p>Base experience: ${data.base_experience}</p>
+                <p>Abilities:</p>
+                <ul>
+                    ${data.abilities.map(ability => `<li>${ability.ability.name}</li>`).join('')}
+                </ul>
+            `;
+        }
+
+        const pokemonName = getPokemonNameFromUrl();
+        if (pokemonName) {
+            API(pokemonName);
+        } else {
+            document.getElementById('pokemon-details').innerHTML = 'No Pokémon selected.';
+        }
+
+        // Add event listener for the back button
+        document.getElementById('back-button').addEventListener('click', () => {
+            window.location.href = 'vasu.html'; // Replace 'index.html' with the actual main Pokémon list page filename
+        });
+    </script>
+</body>
+</html>

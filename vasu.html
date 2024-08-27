@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon List</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        #dd {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-evenly;
+        }
+        #dd li {
+            width: 130px;
+            padding: 5px;
+            border: 1px solid grey;
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="tot"></h1>
+    <ul id="dd"></ul> 
+    <script>
+        let Pokimons = [];
+        
+        const API = async () => {
+            let res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=300');
+            let data = await res.json();
+            Pokimons = data.results;
+            genUI(Pokimons);
+        }
+
+        const genUI = (data) => {
+            let dd = document.getElementById('dd');
+            dd.innerHTML = '';
+            data.forEach((p, i) => {
+                let newLi = document.createElement('li');
+                newLi.innerHTML = `<a href="pokemon-details.html?name=${p.name}">${p.name}</a>`;
+                dd.appendChild(newLi);
+            });
+            document.getElementById('tot').innerHTML = `There are a total of ${data.length} Pokémon.`;
+        }
+
+        API();
+    </script>
+</body>
+</html>
