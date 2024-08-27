@@ -40,6 +40,10 @@
 
         const API = async (name) => {
             let res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+            if (!res.ok) {
+                document.getElementById('pokemon-details').innerHTML = 'Failed to load Pokémon details.';
+                return;
+            }
             let data = await res.json();
             displayDetails(data);
         }
@@ -68,7 +72,7 @@
 
         // Add event listener for the back button
         document.getElementById('back-button').addEventListener('click', () => {
-            window.location.href = 'vasu.html'; // Replace 'index.html' with the actual main Pokémon list page filename
+            window.location.href = 'vasu.html'; // Ensure 'vasu.html' is the correct name of the main Pokémon list page
         });
     </script>
 </body>
